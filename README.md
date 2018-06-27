@@ -1,2 +1,2 @@
-# obd2server
-Servidor para aplicativo OBD2 Android
+# TCC Server
+Servidor para a aplicação web + a API REST do TCC
