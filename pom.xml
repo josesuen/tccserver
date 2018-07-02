@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
-	<artifactId>obd-server-2</artifactId>
+	<artifactId>tccserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>obd-server-2</name>
+	<name>tccserver</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
