@@ -74,7 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	       .ignoring()
 	       // Since we have implemented Spring Security we need to let Spring know
 	       //that our resources folder can be served skipping the antMatchers defined
-	       .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+	       .antMatchers("/resources/static/**", "/static/**", "/css/**", "/js/**", "/images/**");
 	}
 
 }

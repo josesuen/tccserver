@@ -2,8 +2,9 @@ package com.example.demo.controller;
 
 import javax.validation.Valid;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.authentication.UserService;
 import com.example.demo.authentication.User;
+import com.example.demo.authentication.UserService;
 import com.example.demo.model.Driver;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.DriveService;
@@ -42,57 +43,56 @@ public class WEBApiController {
 	@Autowired UserService userService;
 	
 	//HOME VIEW
-	@RequestMapping("/")
-	public String home () {
-		return "home";
-	}
-	@RequestMapping("/login")
-	public String login () {
-		return "login";
+	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+	public ModelAndView login(){
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("login");
+		return modelAndView;
 	}
 	
+	
 	//DRIVE VIEWS
-	@GetMapping("/vehicle/{vin}/drive/{driveid}")
+	@GetMapping("/admin/vehicle/{vin}/drive/{driveid}")
     public String vehicleDetails(Model model, @PathVariable (value = "vin") String vin, @PathVariable (value = "driveid") int driveid) {
 		model.addAttribute("drive", driveService.findById(driveid).get());
 		model.addAttribute("readings", driveService.findById(driveid).get().getObdreadings());
-        return "drivedetails";
+        return "admin/drivedetails";
     }
 
 	
 	//VEHICLE VIEWS
-	@RequestMapping(value = "/vehicle", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/vehicle", method = RequestMethod.GET)
     public String newVehicle(Model model) {
 		model.addAttribute("vehicle", new Vehicle());
 		model.addAttribute("savedvehicles", vehicleService.getAllVehicles());
-        return "vehicles";
+        return "admin/vehicles";
     }
 	
-	 @RequestMapping(value = "/vehicle", method = RequestMethod.POST) 
+	 @RequestMapping(value = "/admin/vehicle", method = RequestMethod.POST) 
 	  public String createNewVehicle(@ModelAttribute Vehicle vehicle) { 
 	        vehicleService.createNewVehicle(vehicle); 
-	        return "redirect:/vehicle";
+	        return "redirect:/admin/vehicle";
 	  } 
 	
-	@RequestMapping(value = "/vehicle/{vin}", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/vehicle/{vin}", method = RequestMethod.GET)
     public String vehicleDetails(Model model, @PathVariable (value = "vin") String vin) {
 		model.addAttribute("vehicle", vehicleService.findByVin(vin));
 		model.addAttribute("drives", vehicleService.getAllDrives(vin));
-        return "vehicledetails";
+        return "admin/vehicledetails";
     }
 	
 	//DRIVER VIEWS
-	@RequestMapping(value = "/driver", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/driver", method = RequestMethod.GET)
     public String newDriver(Model model) {
 		model.addAttribute("driver", new Driver());
 		model.addAttribute("saveddrivers", driverService.getAllDrivers());
-        return "driver";
+        return "admin/driver";
     }
 	
-	@RequestMapping(value = "/driver", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/driver", method = RequestMethod.POST)
 	public String createNewDriver(@ModelAttribute Driver driver) {
         driverService.createNewDriver(driver);
-        return "redirect:/driver";
+        return "redirect:/admin/driver";
         
     }
 	
@@ -130,6 +130,17 @@ public class WEBApiController {
 			modelAndView.setViewName("registration");
 			
 		}
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/admin/home", method = RequestMethod.GET)
+	public ModelAndView home2(){
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(auth.getName());
+		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+		modelAndView.setViewName("admin/home");
 		return modelAndView;
 	}
 }
