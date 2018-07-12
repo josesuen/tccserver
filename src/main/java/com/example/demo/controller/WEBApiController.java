@@ -42,6 +42,13 @@ public class WEBApiController {
 	
 	@Autowired UserService userService;
 	
+	//LOPOC CONTROLLER
+	@RequestMapping(value={"/lopoc/index"}, method = RequestMethod.GET)
+	public ModelAndView lopoc(){
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("lopoc/index");
+		return modelAndView;
+	}	
 	//HOME VIEW
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
 	public ModelAndView login(){
