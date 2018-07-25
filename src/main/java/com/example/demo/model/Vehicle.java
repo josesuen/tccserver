@@ -17,10 +17,12 @@ public class Vehicle {
 	String vin;
 	private String brand;
 	private String model;
+	private String color;
 	private int year;
 	private double power;
 	private double torque;
 	private double eng_size;
+	private double odometer;
 	
 	@OneToMany(mappedBy = "vehicle")
 	@JsonIgnore
@@ -91,4 +93,20 @@ public class Vehicle {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public double getOdometer() {
+		return odometer;
+	}
+
+	public void setOdometer(double odometer) {
+		this.odometer = odometer;
+	}
+
 }

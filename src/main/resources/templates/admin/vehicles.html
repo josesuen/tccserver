@@ -10,74 +10,87 @@
   </nav>
 
   <div class="container">
-    <h3>Veículos cadastrados no sistema</h3>
-    <p>Abaixo estão os veículos já cadastrados no sistema.</p>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>VIN</th>
-          <th>Marca</th>
-          <th>Modelo</th>
-          <th>Ano</th>
-          <th>Potência</th>
-          <th>Torque</th>
-          <th>Cilindrada</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class ="vehicle_row" th:each="vehicle: ${savedvehicles}">
-          <td id="vin" th:text="${vehicle.vin}">vasile</td>
-          <td th:text="${vehicle.brand}">45</td>
-          <td th:text="${vehicle.model}">45</td>
-          <td th:text="${vehicle.year}">45</td>
-          <td th:text="${vehicle.power}">45</td>
-          <td th:text="${vehicle.torque}">45</td>
-          <td th:text="${vehicle.eng_size}">45</td>
-        </tr>
-      </tbody>
-    </table>
-    <h3>Cadastrar novo veículo</h3>
-    <p>Utilize o formulário abaixo para cadastrar um novo veículo no sistema.</p>
-    <form action="#" th:action="@{/vehicle}" th:object="${vehicle}" method="post">
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="vin">VIN</label>
-            <input type="text" id="vin" class="form-control" th:field="*{vin}" />
-          </div>
-          <div class="form-group">
-            <label for="brand">Marca</label>
-            <input type="text" id="brand" class="form-control" th:field="*{brand}" />
-          </div>
-          <div class="form-group">
-            <label for="model">Modelo</label>
-            <input type="text" id="model" class="form-control" th:field="*{model}" />
-          </div>
-          <div class="form-group">
-            <label for="year">Ano</label>
-            <input type="text" id="year" class="form-control" th:field="*{year}" />
-          </div>
-        </div>
-        <div class="col">
 
 
-          <div class="form-group">
-            <label for="power">Potência (cv)</label>
-            <input type="text" id="power" class="form-control" th:field="*{power}" />
-          </div>
-          <div class="form-group">
-            <label for="torque">Torque (Nm)</label>
-            <input type="text" id="torque" class="form-control" th:field="*{torque}" />
-          </div>
-          <div class="form-group">
-            <label for="eng_size">Cilindrada (L)</label>
-            <input type="text" id="eng_size" class="form-control" th:field="*{eng_size}" />
-          </div>
-          <button type="submit" class="btn btn-primary">Salvar</button>
-        </div>
+      <h3>Veículos cadastrados no sistema</h3>
+      <p>Abaixo estão os veículos já cadastrados no sistema.</p>
+          <div class="row">
+      <div class="table-responsive">
+
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>VIN</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Ano</th>
+              <th>Potência</th>
+              <th>Torque</th>
+              <th>Cilindrada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="vehicle_row" th:each="vehicle: ${savedvehicles}">
+              <td id="vin" th:text="${vehicle.vin}">vasile</td>
+              <td th:text="${vehicle.brand}">45</td>
+              <td th:text="${vehicle.model}">45</td>
+              <td th:text="${vehicle.year}">45</td>
+              <td th:text="${vehicle.power}">45</td>
+              <td th:text="${vehicle.torque}">45</td>
+              <td th:text="${vehicle.eng_size}">45</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </form>
-
+    </div>
+      <h3>Cadastrar novo veículo</h3>
+      <p>Utilize o formulário abaixo para cadastrar um novo veículo no sistema.</p>
+      <form action="#" th:action="@{/admin/vehicle}" th:object="${vehicle}" method="post">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="vin">VIN</label>
+              <input type="text" id="vin" class="form-control" th:field="*{vin}" />
+            </div>
+            <div class="form-group">
+              <label for="brand">Marca</label>
+              <input type="text" id="brand" class="form-control" th:field="*{brand}" />
+            </div>
+            <div class="form-group">
+              <label for="model">Modelo</label>
+              <input type="text" id="model" class="form-control" th:field="*{model}" />
+            </div>
+            <div class="form-group">
+              <label for="year">Ano</label>
+              <input type="text" id="year" class="form-control" th:field="*{year}" />
+            </div>
+            <div class="form-group">
+              <label for="color">Cor</label>
+              <input type="text"  id="color" class="form-control" th:field="*{color}" />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="power">Potência (cv)</label>
+              <input type="number" step=0.1 id="power" class="form-control" th:field="*{power}" />
+            </div>
+            <div class="form-group">
+              <label for="torque">Torque (Nm)</label>
+              <input type="number" step=0.1 id="torque" class="form-control" th:field="*{torque}" />
+            </div>
+            <div class="form-group">
+              <label for="eng_size">Cilindrada (L)</label>
+              <input type="number" step=0.1 id="eng_size" class="form-control" th:field="*{eng_size}" />
+            </div>
+            <div class="form-group">
+              <label for="color">Odômetro</label>
+              <input type="number" step=0.1 id="odometer" class="form-control" th:field="*{odometer}" />
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </div>
+      </form>
   </div>
   <!-- /.container -->
   <footer class="footer">
@@ -94,13 +107,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <!-- Script to open vehicle page -->
   <script>
-         $(function() {
-            $('.vehicle_row').click(function() {
-                var vin = $(this).find("#vin").html();
-                 window.location.href = '/admin/vehicle' + '/' + vin;
-            });
-        });
-</script>
+    $(function() {
+      $('.vehicle_row').click(function() {
+        var vin = $(this).find("#vin").html();
+        window.location.href = '/admin/vehicle' + '/' + vin;
+      });
+    });
+  </script>
 </body>
 
 </html>
