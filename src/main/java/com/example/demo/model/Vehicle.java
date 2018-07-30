@@ -7,13 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
+@DynamoDBTable(tableName = "Vehicle")
 public class Vehicle {
 	
 	/*Attributes*/
-	@Id
 	String vin;
 	private String brand;
 	private String model;
@@ -24,10 +26,6 @@ public class Vehicle {
 	private double eng_size;
 	private double odometer;
 	
-	@OneToMany(mappedBy = "vehicle")
-	@JsonIgnore
-	private List<Drive> drives = new ArrayList<Drive>();
-	
 
 	/*Constructors */
 	
@@ -36,6 +34,7 @@ public class Vehicle {
 	}
 	
 	/*Getters and setters*/
+	@DynamoDBHashKey
 	public String getVin() {
 		return vin;
 	}
@@ -43,36 +42,42 @@ public class Vehicle {
 	public void setVin(String vin) {
 		this.vin = vin;
 	}
+    @DynamoDBAttribute
 	public String getBrand() {
 		return brand;
 	}
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
+    @DynamoDBAttribute
 	public String getModel() {
 		return model;
 	}
 	public void setModel(String model) {
 		this.model = model;
 	}
+    @DynamoDBAttribute
 	public int getYear() {
 		return year;
 	}
 	public void setYear(int year) {
 		this.year = year;
 	}
+    @DynamoDBAttribute
 	public double getPower() {
 		return power;
 	}
 	public void setPower(double power) {
 		this.power = power;
 	}
+    @DynamoDBAttribute
 	public double getTorque() {
 		return torque;
 	}
 	public void setTorque(double torque) {
 		this.torque = torque;
 	}
+    @DynamoDBAttribute
 	public double getEng_size() {
 		return eng_size;
 	}
@@ -80,19 +85,7 @@ public class Vehicle {
 		this.eng_size = eng_size;
 	}
 	
-	
-	public List<Drive> getDrives() {
-		return drives;
-	}
-
-	public void setDrives(List<Drive> drives) {
-		this.drives = drives;
-	}
-
-	public Drive map(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @DynamoDBAttribute
 	public String getColor() {
 		return color;
 	}
@@ -100,7 +93,8 @@ public class Vehicle {
 	public void setColor(String color) {
 		this.color = color;
 	}
-
+	
+    @DynamoDBAttribute
 	public double getOdometer() {
 		return odometer;
 	}

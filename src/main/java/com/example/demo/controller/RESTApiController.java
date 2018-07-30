@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Drive;
-import com.example.demo.model.Driver;
 import com.example.demo.model.OBDReading;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.DriveService;
-import com.example.demo.service.DriverService;
 import com.example.demo.service.OBDReadingService;
 import com.example.demo.service.VehicleService;
 
@@ -41,8 +39,6 @@ public class RESTApiController {
 	@Autowired
 	private OBDReadingService obdreadingservice;
 	
-	@Autowired
-	private DriverService driverservice;
 	
 	//VEHICLE OPERATIONS
 	@RequestMapping(value = "/api/vehicle", method = RequestMethod.GET)
@@ -63,7 +59,7 @@ public class RESTApiController {
 	//OBDREADING OPERATIONS
 	@PostMapping("/api/drive/{driveid}/obdreading")
     public void createreading(@PathVariable (value = "driveid") int driveid, @Valid @RequestBody OBDReading reading) {
-		reading.setDrive(driveservice.findById(driveid).get());
+		reading.setDrive(driveservice.findById(driveid));
 		obdreadingservice.createNewReading(reading);
 	}
 	

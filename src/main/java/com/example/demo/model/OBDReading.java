@@ -16,31 +16,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /*Anotaçao entity traz a ideia de "BD". Cada atributo da classe vira uma coluna*/
-@Entity
 public class OBDReading implements Serializable {
 	
 	
 	/*Id eh a chave primaria*/
-	@Id
-	@GeneratedValue
 	int id; 
-	
     double latitude, longitude;
     long timestamp;
-    
-    @ManyToOne
-    @JoinColumn(name = "drive_id")
-    private Drive drive;
-    
-    public Map<String, String> getReadings() {
-		return readings;
-	}
-
-	public void setReadings(Map<String, String> readings) {
-		this.readings = readings;
-	}
-
-	@ElementCollection(fetch = FetchType.EAGER)
     private Map<String, String> readings ;
 
     /*generic construtor*/
@@ -50,6 +32,14 @@ public class OBDReading implements Serializable {
     /*Getters e Setters*/
 	public long getId() {
 		return id;
+	}
+	
+    public Map<String, String> getReadings() {
+		return readings;
+	}
+
+	public void setReadings(Map<String, String> readings) {
+		this.readings = readings;
 	}
 	public void setId(int id) {
 		this.id = id;
@@ -73,14 +63,6 @@ public class OBDReading implements Serializable {
 		this.timestamp = timestamp;
 	}
 	
-	
-	public Drive getDrive() {
-		return drive;
-	}
-
-	public void setDrive(Drive drive) {
-		this.drive = drive;
-	}
 
 
 	

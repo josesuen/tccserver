@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DAO.RoleRepository;
+import com.example.demo.DAO.UserRepository;
+
 @Service("userService")
 public class UserServiceImpl implements UserService{
 

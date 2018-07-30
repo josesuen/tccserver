@@ -17,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.authentication.User;
 import com.example.demo.authentication.UserService;
-import com.example.demo.model.Driver;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.DriveService;
-import com.example.demo.service.DriverService;
 import com.example.demo.service.VehicleService;
 /**
  * @author José Suen
@@ -37,8 +35,6 @@ public class WEBApiController {
 	private VehicleService vehicleService;
 	
 	
-	@Autowired
-	private DriverService driverService;
 	
 	@Autowired UserService userService;
 	
@@ -61,8 +57,8 @@ public class WEBApiController {
 	//DRIVE VIEWS
 	@GetMapping("/admin/vehicle/{vin}/drive/{driveid}")
     public String vehicleDetails(Model model, @PathVariable (value = "vin") String vin, @PathVariable (value = "driveid") int driveid) {
-		model.addAttribute("drive", driveService.findById(driveid).get());
-		model.addAttribute("readings", driveService.findById(driveid).get().getObdreadings());
+		model.addAttribute("drive", driveService.findById(driveid));
+		model.addAttribute("readings", driveService.findById(driveid).getObdreadings());
         return "admin/drivedetails";
     }
 
@@ -88,20 +84,6 @@ public class WEBApiController {
         return "admin/vehicledetails";
     }
 	
-	//DRIVER VIEWS
-	@RequestMapping(value = "/admin/driver", method = RequestMethod.GET)
-    public String newDriver(Model model) {
-		model.addAttribute("driver", new Driver());
-		model.addAttribute("saveddrivers", driverService.getAllDrivers());
-        return "admin/driver";
-    }
-	
-	@RequestMapping(value = "/admin/driver", method = RequestMethod.POST)
-	public String createNewDriver(@ModelAttribute Driver driver) {
-        driverService.createNewDriver(driver);
-        return "redirect:/admin/driver";
-        
-    }
 	
 	//AUTHENTICATION
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
