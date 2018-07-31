@@ -32,17 +32,8 @@ public class OBDReading implements Serializable {
     @JoinColumn(name = "drive_id")
     private Drive drive;
     
-    public Map<String, String> getReadings() {
-		return readings;
-	}
-
-	public void setReadings(Map<String, String> readings) {
-		this.readings = readings;
-	}
-
-	@ElementCollection(fetch = FetchType.EAGER)
-    private Map<String, String> readings ;
-
+    private PIDset pidset;
+   
     /*generic construtor*/
     public OBDReading() {
     }
@@ -80,6 +71,14 @@ public class OBDReading implements Serializable {
 
 	public void setDrive(Drive drive) {
 		this.drive = drive;
+	}
+
+	public PIDset getPidset() {
+		return pidset;
+	}
+
+	public void setPidset(PIDset pidset) {
+		this.pidset = pidset;
 	}
 
 
