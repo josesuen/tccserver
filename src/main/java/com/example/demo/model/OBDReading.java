@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 /*Anotaçao entity traz a ideia de "BD". Cada atributo da classe vira uma coluna*/
 @Entity
@@ -21,34 +22,50 @@ public class OBDReading implements Serializable {
 	@GeneratedValue
 	int id; 
 	
+	
     double latitude, longitude;
     long timestamp;
     
-	private Integer SPEED;
-    private double ENGINE_LOAD;
-	private Integer ENGINE_COOLANT_TEMP;
+    //Control
+    private double TIMING_ADVANCE;
+    private double EQUIV_RATIO;
+    
+    //Engine
+    private double RPM;
+	private double THROTTLE_POS;
+	private double ENGINE_LOAD;
+	private double ENGINE_RUNTIME;
 	
+	
+	//Fuel
+	private double MAF;
+	private double FUEL_TYPE;
+	private double FUEL_CONSUMPTION_RATE;
+	private double ETHANOL_PERCENTAGE;
+	private double FUEL_LEVEL;
 	private double SHORT_TERM_FUEL_TRIM_1;
 	private double LONG_TERM_FUEL_TRIM_1;
 	private double SHORT_TERM_FUEL_TRIM_2;
 	private double LONG_TERM_FUEL_TRIM_2;
-	private double RPM;
-
-	private double TIMING_ADVANCE;
-	private double THROTTLE_POS;
-	private double REL_THROTTLE_POS;
-	private double MAF;
-	private double ENGINE_RUNTIME;
-	private double FUEL_LEVEL;
-	private double EQUIV_RATIO;
 	private double AIR_FUEL_RATIO;
 	private double WIDEBAND_AIR_FUEL_RATIO;
+	
+	
+	//Driver
+	private double REL_THROTTLE_POS;
+	//Temperatura
+	private Integer ENGINE_COOLANT_TEMP;
 	private double AMBIENT_AIR_TEMP;
-	private double FUEL_TYPE;
-	private double ETHANOL_PERCENTAGE;
-	private double RELATIVE_ACCELERATOR_POSITION;
-	private double FUEL_CONSUMPTION_RATE;
-	private double ENGINE_FUEL_RATE;
+	
+	//Misc
+	private Integer SPEED;
+    
+	
+	
+	
+	//private double RELATIVE_ACCELERATOR_POSITION;
+	
+	//private double ENGINE_FUEL_RATE;
     
     @ManyToOne
     @JoinColumn(name = "drive_id")
@@ -257,13 +274,13 @@ public class OBDReading implements Serializable {
 		ETHANOL_PERCENTAGE = eTHANOL_PERCENTAGE;
 	}
 
-	public double getRELATIVE_ACCELERATOR_POSITION() {
+	/*public double getRELATIVE_ACCELERATOR_POSITION() {
 		return RELATIVE_ACCELERATOR_POSITION;
 	}
 
 	public void setRELATIVE_ACCELERATOR_POSITION(Integer rELATIVE_ACCELERATOR_POSITION) {
 		RELATIVE_ACCELERATOR_POSITION = rELATIVE_ACCELERATOR_POSITION;
-	}
+	}*/
 
 	public double getFUEL_CONSUMPTION_RATE() {
 		return FUEL_CONSUMPTION_RATE;
@@ -273,41 +290,125 @@ public class OBDReading implements Serializable {
 		FUEL_CONSUMPTION_RATE = fUEL_CONSUMPTION_RATE;
 	}
 
-	public double getENGINE_FUEL_RATE() {
+	/*public double getENGINE_FUEL_RATE() {
 		return ENGINE_FUEL_RATE;
 	}
 
 	public void setENGINE_FUEL_RATE(double eNGINE_FUEL_RATE) {
 		ENGINE_FUEL_RATE = eNGINE_FUEL_RATE;
-	}
+	}*/
 
 	
 	/*Deserializing*/
     @JsonProperty("readings")
-    private void unpackNested(Map<String,String> readings) {
-    	this.SPEED = (readings.get("Speed").contains("NODATA")) ? 0 : Integer.parseInt(readings.get("Speed").replaceAll("[^\\d.-]", ""));
-    	this.ENGINE_LOAD = (readings.get("Engine Load").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Engine Load").replaceAll("[^\\d.-]", ""));
-    	this.ENGINE_COOLANT_TEMP = (readings.get("Engine Coolant Temperature").contains("NODATA")) ? 0 : Integer.parseInt(readings.get("Engine Coolant Temperature").replaceAll("[^\\d.-]", ""));
-    	this.SHORT_TERM_FUEL_TRIM_1 = (readings.get("Short Term Fuel Trim Bank 1").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Short Term Fuel Trim Bank 1").replaceAll("[^\\d.-]", ""));
-    	this.LONG_TERM_FUEL_TRIM_1 = (readings.get("Long Term Fuel Trim Bank 1").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Long Term Fuel Trim Bank 1").replaceAll("[^\\d.-]", ""));
-    	this.SHORT_TERM_FUEL_TRIM_2 = (readings.get("Short Term Fuel Trim Bank 2").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Short Term Fuel Trim Bank 2").replaceAll("[^\\d.-]", ""));
-    	this.LONG_TERM_FUEL_TRIM_2 = (readings.get("Long Term Fuel Trim Bank 2").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Long Term Fuel Trim Bank 2").replaceAll("[^\\d.-]", ""));
-    	this.RPM = (readings.get("Engine RPM").contains("NODATA")) ? 0 : Integer.parseInt(readings.get("Engine RPM").replaceAll("[^\\d.-]", ""));
-    	this.TIMING_ADVANCE = (readings.get("Timing Advance").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Timing Advance").replaceAll("[^\\d.-]", ""));
-    	this.THROTTLE_POS = (readings.get("Throttle Position").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Throttle Position").replaceAll("[^\\d.-]", ""));
-    	this.REL_THROTTLE_POS = (readings.get("Relative throttle position").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Relative throttle position").replaceAll("[^\\d.-]", ""));
+    private void unpackNested(Map<String,String> readings) throws JsonMappingException {
+	    try {
+	    	this.SPEED = (readings.get("Speed").contains("NODATA")) ? 0 : Integer.parseInt(readings.get("Speed").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Speed not included");
+		}
+    	try {
+    		this.ENGINE_LOAD = (readings.get("Engine Load").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Engine Load").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Engine Load not included");
+		}
+    	try {
+	    	this.ENGINE_COOLANT_TEMP = (readings.get("Engine Coolant Temperature").contains("NODATA")) ? 0 : Integer.parseInt(readings.get("Engine Coolant Temperature").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Engine Coolant not included");
+		}
+    	try {
+	    	this.SHORT_TERM_FUEL_TRIM_1 = (readings.get("Short Term Fuel Trim Bank 1").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Short Term Fuel Trim Bank 1").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Short Term Fuel Trim Bank 1 not included");
+		}
+    	try {	
+	    	this.LONG_TERM_FUEL_TRIM_1 = (readings.get("Long Term Fuel Trim Bank 1").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Long Term Fuel Trim Bank 1").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Long Term Fuel Trim Bank 1 not included");
+		}
+    	try {
+	    	this.SHORT_TERM_FUEL_TRIM_2 = (readings.get("Short Term Fuel Trim Bank 2").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Short Term Fuel Trim Bank 2").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Short Term Fuel Trim Bank 2 not included");
+		}
+    	try {
+	    	this.LONG_TERM_FUEL_TRIM_2 = (readings.get("Long Term Fuel Trim Bank 2").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Long Term Fuel Trim Bank 2").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Long Term Fuel Trim Bank 2 not included");
+		}
+    	try {
+	    	this.RPM = (readings.get("Engine RPM").contains("NODATA")) ? 0 : Integer.parseInt(readings.get("Engine RPM").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Engine RPM not included");
+		}
+    	try {
+	    	this.TIMING_ADVANCE = (readings.get("Timing Advance").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Timing Advance").replaceAll("[^\\d.-]", ""));
+	    }catch (Exception e){
+			 System.out.println("Timing Advance not included");
+		}
+    	try {
+    		this.THROTTLE_POS = (readings.get("Throttle Position").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Throttle Position").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+   		 	System.out.println("Throttle Position not included");
+    	}
+    	try {
+    		this.REL_THROTTLE_POS = (readings.get("Relative throttle position").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Relative throttle position").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Relative throttle position not included");
+    	}
+    	try {
     	this.MAF = (readings.get("Mass Air Flow").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Mass Air Flow").replaceAll("[^\\d.-]", ""));
-    	this.ENGINE_RUNTIME = (readings.get("Engine Runtime").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Engine Runtime").replaceAll("[^\\d.-]", ""));
-    	this.FUEL_LEVEL=(readings.get("Fuel Level").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Fuel Level").replaceAll("[^\\d.-]", ""));
-    	this.EQUIV_RATIO = (readings.get("Command Equivalence Ratio").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Command Equivalence Ratio").replaceAll("[^\\d.-]", ""));
-    	this.AIR_FUEL_RATIO = (readings.get("Air/Fuel Ratio").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Air/Fuel Ratio").replaceAll("[^\\d.-]", ""));
-    	this.WIDEBAND_AIR_FUEL_RATIO = (readings.get("Wideband Air/Fuel Ratio").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Wideband Air/Fuel Ratio").replaceAll("[^\\d.-]", ""));
-    	this.AMBIENT_AIR_TEMP = (readings.get("Ambient Air Temperature").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Ambient Air Temperature").replaceAll("[^\\d.-]", ""));
-    	this.FUEL_TYPE = (readings.get("Fuel Type").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Fuel Type").replaceAll("[^\\d.-]", ""));
-    	this.ENGINE_FUEL_RATE = (readings.get("Engine Fuel Rate").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Engine Fuel Rate").replaceAll("[^\\d.-]", ""));
-    	this.FUEL_CONSUMPTION_RATE = (readings.get("Fuel Consumption Rate").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Fuel Consumption Rate").replaceAll("[^\\d.-]", ""));
-    	this.ETHANOL_PERCENTAGE = (readings.get("Ethanol Percentage").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Ethanol Percentage").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Mass Air Flow not included");
+    	}
+    	try {
+    		this.ENGINE_RUNTIME = (readings.get("Engine Runtime").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Engine Runtime").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+   		 	System.out.println("Engine Runtime not included");
+    	}
+    	try {
+    		this.FUEL_LEVEL=(readings.get("Fuel Level").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Fuel Level").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		 System.out.println("Fuel Level not included");
+    	}
+    	try {
+    		this.EQUIV_RATIO = (readings.get("Command Equivalence Ratio").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Command Equivalence Ratio").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Command Equivalence Ratio not included");
+    	}
+    	try {
+    		this.AIR_FUEL_RATIO = (readings.get("Air/Fuel Ratio").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Air/Fuel Ratio").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Air/Fuel Ratio not included");
+    	}
+    	try {
+    		this.WIDEBAND_AIR_FUEL_RATIO = (readings.get("Wideband Air/Fuel Ratio").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Wideband Air/Fuel Ratio").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Wideband Air/Fuel Ratio not included");
+    	}
+    	try {
+    		this.AMBIENT_AIR_TEMP = (readings.get("Ambient Air Temperature").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Ambient Air Temperature").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Ambient Air Temperature not included");
+    	}
+    	try {
+    	    this.FUEL_TYPE = (readings.get("Fuel Type").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Fuel Type").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Fuel Type not included");
+    	}
+    	try {
+        	this.FUEL_CONSUMPTION_RATE = (readings.get("Fuel Consumption Rate").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Fuel Consumption Rate").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Fuel Consumption Rate not included");
+    	}
+    	try {
+        	this.ETHANOL_PERCENTAGE = (readings.get("Ethanol Percentage").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Ethanol Percentage").replaceAll("[^\\d.-]", ""));
+    	}catch (Exception e){
+    		System.out.println("Ethanol Percentage not included");
+    	}
     	
+    	//this.ENGINE_FUEL_RATE = (readings.get("Engine Fuel Rate").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Engine Fuel Rate").replaceAll("[^\\d.-]", ""));
     	//this.RELATIVE_ACCELERATOR_POSITION = (readings.get("RELATIVE_ACCELERATOR_POSITION").contains("NODATA")) ? 0 : Double.parseDouble(readings.get("Throttle Position").replaceAll("[^\\d.-]", ""));
     	
     }
