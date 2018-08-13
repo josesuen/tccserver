@@ -16,14 +16,14 @@
           <h2 th:text="${vehicle.model}" class="h5"></h2><span th:text="${vehicle.vin}">VIN</span>
         </div>
         <!-- Small Brand information, appears on minimized sidebar-->
-        <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>B</strong><strong class="text-primary">D</strong></a></div>
+        <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>T</strong><strong class="text-primary">CC</strong></a></div>
       </div>
       <!-- Sidebar Navigation Menus-->
       <div class="main-menu">
         <ul id="side-main-menu" class="side-menu list-unstyled">
-          <li><a href="index.html"> <i class="fas fa-home"></i>HOME                             </a></li>
-          <li><a href="forms.html"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
-          <li><a href="charts.html"> <i class="far fa-chart-bar"></i>ESTATÍSTICAS                             </a></li>
+          <li><a href="dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
+          <li><a href="drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
+          <li><a href=""> <i class="far fa-chart-bar"></i>ESTATISTICAS                             </a></li>
         </ul>
       </div>
     </div>
@@ -31,87 +31,86 @@
   <div class="page">
     <header th:replace="fragments/dashboardVehicles.html :: header">
     </header>
-    <!-- Statistics Section-->
-    <section class="statistics" style="margin-top: 32px;">
+    <section class="section-padding">
       <div class="container-fluid">
-        <div class="row d-flex">
-          <div class="col-lg-4">
-            <!-- Odometro-->
-            <div class="card income text-center">
-              <h2 class="display h4">Odômetro</h2>
-              <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
-              <div class="number">---,---</div><strong class="text-primary">km</strong>
-              <p>Calculado até a última rodagem cadastrada.</p>
-            </div>
-          </div>
-          <div class="col-lg-4">
-          <!-- Comsumo medio-->
-            <div class="card income text-center">
-              <h2 class="display h4">Consumo médio</h2>
-              <div class="icon"><i class="fas fa-gas-pump"></i></div>
-              <div class="number">--.--</div><strong class="text-primary">km/l</strong>
-              <p>Baseado no histórico de consumos médios registrado</p>
-            </div>
-          </div>
-          <div class="col-lg-4">
-          <!-- Total de rodagens-->
-            <div class="card income text-center">
-              <h2 class="display h4">Rodagens realizadas</h2>
-              <div class="icon"><i class="fas fa-road"></i></div>
-              <div class="number">----</div><strong class="text-primary">Rodagens</strong>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header d-flex align-items-center">
+                <h4>DETALHES DO VEICULO</h4>
+              </div>
+              <div class="card-body">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Marca</th>
+                      <th>Modelo</th>
+                      <th>Ano</th>
+                      <th>Potencia</th>
+                      <th>Torque</th>
+                      <th>Cilindrada</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td th:text="${vehicle.brand}">45</td>
+                      <td th:text="${vehicle.model}">45</td>
+                      <td th:text="${vehicle.year}">45</td>
+                      <td th:text="${vehicle.power}">45</td>
+                      <td th:text="${vehicle.torque}">45</td>
+                      <td th:text="${vehicle.eng_size}">45</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <section class="section-padding">
-      <div class="container-fluid">
-      <h1 style="display:none;"><i class="fas fa-car"></i></h1>
+
+
       <h1 style="display:none;" id="vin" th:text="${vehicle.vin}"></h1>
-      <h3></i>DETALHES DO VEÍCULO</h3>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Ano</th>
-            <th>Potência</th>
-            <th>Torque</th>
-            <th>Cilindrada</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td th:text="${vehicle.brand}">45</td>
-            <td th:text="${vehicle.model}">45</td>
-            <td th:text="${vehicle.year}">45</td>
-            <td th:text="${vehicle.power}">45</td>
-            <td th:text="${vehicle.torque}">45</td>
-            <td th:text="${vehicle.eng_size}">45</td>
-          </tr>
-        </tbody>
-      </table>
-      <h3></i>RODAGENS</h3>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Odômetro início</th>
-            <th>Odômetro fim</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="drive_row" th:each="drive: ${drives}">
-            <td id="drive_id" th:text="${drive.id}">vasile</td>
-            <td th:text="${drive.mileage_start}">vasile</td>
-            <td th:text="${drive.mileage_end}">45</td>
-          </tr>
-        </tbody>
-      </table>
+
+
+  </section>
+  <!-- Statistics Section-->
+  <section class="statistics" >
+    <div class="container-fluid">
+      <div class="row d-flex">
+        <div class="col-lg-4">
+          <!-- Odometro-->
+          <div class="card income text-center">
+            <h2 class="display h4">Odometro</h2>
+            <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
+            <div class="number">---,---</div><strong class="text-primary">km</strong>
+            <p>Calculado ate a ultima rodagem cadastrada.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <!-- Comsumo medio-->
+          <div class="card income text-center">
+            <h2 class="display h4">Consumo m�dio</h2>
+            <div class="icon"><i class="fas fa-gas-pump"></i></div>
+            <div class="number">--.--</div><strong class="text-primary">km/l</strong>
+            <p>Baseado no historico de consumos m�dios registrado</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <!-- Total de rodagens-->
+          <div class="card income text-center">
+            <h2 class="display h4">Rodagens realizadas</h2>
+            <div class="icon"><i class="fas fa-road"></i></div>
+            <div class="number">----</div><strong class="text-primary">Rodagens</strong>
+          </div>
+        </div>
+      </div>
     </div>
-    </section>
-    <footer th:replace="fragments/dashboardVehicles.html :: footer">
-    </footer>
+  </section>
+
+  <footer th:replace="fragments/dashboardVehicles.html :: footer">
+  </footer>
+      </div>
   </div>
 
   <!-- Bootstrap core JavaScript

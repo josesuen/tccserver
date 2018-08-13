@@ -81,13 +81,27 @@ public class WEBApiController {
 	        return "redirect:/admin/vehicle";
 	  } 
 	
-	@RequestMapping(value = "/admin/vehicle/{vin}", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/vehicle/{vin}/dashboard", method = RequestMethod.GET)
     public String vehicleDetails(Model model, @PathVariable (value = "vin") String vin) {
 		model.addAttribute("vehicle", vehicleService.findByVin(vin));
 		model.addAttribute("drives", vehicleService.getAllDrives(vin));
         return "admin/vehicledetails";
     }
 	
+	@RequestMapping(value = "/admin/vehicle/{vin}/drives", method = RequestMethod.GET)
+    public String vehicleDrives(Model model, @PathVariable (value = "vin") String vin) {
+		model.addAttribute("vehicle", vehicleService.findByVin(vin));
+		model.addAttribute("drives", vehicleService.getAllDrives(vin));
+        return "admin/vehicledrives";
+    }
+	
+	@RequestMapping(value = "/admin/vehicle/{vin}/drives/{driveid}", method = RequestMethod.GET)
+    public String vehicleDriveDetails(Model model, @PathVariable (value = "vin") String vin, @PathVariable (value = "driveid") int driveid) {
+		model.addAttribute("vehicle", vehicleService.findByVin(vin));
+		model.addAttribute("drive", driveService.findById(driveid).get());
+		model.addAttribute("readings", driveService.findById(driveid).get().getObdreadings());
+        return "admin/vehicledrivedetails";
+    }
 	//DRIVER VIEWS
 	@RequestMapping(value = "/admin/driver", method = RequestMethod.GET)
     public String newDriver(Model model) {
