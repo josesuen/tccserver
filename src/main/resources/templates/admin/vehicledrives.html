@@ -21,9 +21,9 @@
       <!-- Sidebar Navigation Menus-->
       <div class="main-menu">
         <ul id="side-main-menu" class="side-menu list-unstyled">
-          <li><a href="index.html"> <i class="fas fa-home"></i>HOME                             </a></li>
-          <li><a href="forms.html"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
-          <li><a href="charts.html"> <i class="far fa-chart-bar"></i>ESTATISTICAS                             </a></li>
+          <li><a href="dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
+          <li class="active"><a href="drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
+          
         </ul>
       </div>
     </div>
@@ -35,22 +35,24 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-header d-flex align-items-center">
-            <h3></i>RODAGEM</h3>
+            <h3></i>RODAGENS</h3>
           </div>
           <div class="card-body">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>Odometro inicio</th>
-                  <th>Odometro fim</th>
+                  <th style="display:none">Id</th>
+                  <th>Data</th>
+                  <th>Descricao</th>
+                  <th>Odometro ao inicio da viagem</th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="drive_row" th:each="drive: ${drives}">
-                  <td id="drive_id" th:text="${drive.id}">vasile</td>
-                  <td th:text="${drive.mileage_start}">vasile</td>
-                  <td th:text="${drive.mileage_end}">45</td>
+                  <td style="display:none" id="drive_id" th:text="${drive.id}">vasile</td>
+                  <td th:text="${drive.date}">vasile</td>
+                  <td th:text="${drive.description}">45</td>
+                  <td th:text="${drive.mileage_start}">45</td>
                 </tr>
               </tbody>
             </table>

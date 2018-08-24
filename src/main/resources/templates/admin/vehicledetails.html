@@ -16,14 +16,13 @@
           <h2 th:text="${vehicle.model}" class="h5"></h2><span th:text="${vehicle.vin}">VIN</span>
         </div>
         <!-- Small Brand information, appears on minimized sidebar-->
-        <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>T</strong><strong class="text-primary">CC</strong></a></div>
+        <div class="sidenav-header-logo"><a  class="brand-small text-center"> <strong>T</strong><strong class="text-primary">CC</strong></a></div>
       </div>
       <!-- Sidebar Navigation Menus-->
       <div class="main-menu">
         <ul id="side-main-menu" class="side-menu list-unstyled">
-          <li><a href="dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
+          <li class="active"><a href="dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
           <li><a href="drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
-          <li><a href=""> <i class="far fa-chart-bar"></i>ESTATISTICAS                             </a></li>
         </ul>
       </div>
     </div>
@@ -74,12 +73,11 @@
 
 
   </section>
-  <!-- Statistics Section-->
+  <!-- Statistics Section
   <section class="statistics" >
     <div class="container-fluid">
       <div class="row d-flex">
         <div class="col-lg-4">
-          <!-- Odometro-->
           <div class="card income text-center">
             <h2 class="display h4">Odometro</h2>
             <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -88,7 +86,6 @@
           </div>
         </div>
         <div class="col-lg-4">
-          <!-- Comsumo medio-->
           <div class="card income text-center">
             <h2 class="display h4">Consumo m�dio</h2>
             <div class="icon"><i class="fas fa-gas-pump"></i></div>
@@ -97,7 +94,7 @@
           </div>
         </div>
         <div class="col-lg-4">
-          <!-- Total de rodagens-->
+
           <div class="card income text-center">
             <h2 class="display h4">Rodagens realizadas</h2>
             <div class="icon"><i class="fas fa-road"></i></div>
@@ -107,7 +104,7 @@
       </div>
     </div>
   </section>
-
+-->
   <footer th:replace="fragments/dashboardVehicles.html :: footer">
   </footer>
       </div>

@@ -21,9 +21,8 @@
       <!-- Sidebar Navigation Menus-->
       <div class="main-menu">
         <ul id="side-main-menu" class="side-menu list-unstyled">
-          <li><a href="index.html"> <i class="fas fa-home"></i>HOME                             </a></li>
-          <li><a href="forms.html"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
-          <li><a href="charts.html"> <i class="far fa-chart-bar"></i>ESTATISTICAS                             </a></li>
+          <li><a href="../dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
+          <li class="active"><a href="../drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
         </ul>
       </div>
     </div>
@@ -35,7 +34,7 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-header d-flex align-items-center">
-            <h3></i>RODAGENS</h3>
+            <h3></i>RODAGEM</h3>
           </div>
           <div class="card-body">
             <table class="table table-striped">
@@ -43,18 +42,18 @@
                 <tr>
                   <th>Data</th>
                   <th>Odometro inicial</th>
-                  <th>Odometro final</th>
+                  <th>Descricao</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Data</td>
                   <td th:text="${drive.mileage_start}">45</td>
-                  <td th:text="${drive.mileage_end}">45</td>
+                  <td th:text="${drive.description}">45</td>
                 </tr>
               </tbody>
             </table>
-            <h3 style="display:inline;"><i class="fas fa-info mr-1"></i>Informações do OBD</h3>
+            <h3 style="display:inline;"><i class="fas fa-info mr-1"></i>Dados coletados do OBD</h3>
             <div class="table-responsive">
               <table class="table table-striped">
                 <thead>

@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ public class OBDReading implements Serializable {
 	
 	
     double latitude, longitude;
-    long timestamp;
+    private Date timestamp;
     
     //Control
     private double TIMING_ADVANCE;
@@ -94,10 +95,10 @@ public class OBDReading implements Serializable {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	public long getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
-	public void setTimestamp(long timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 	
