@@ -17,6 +17,7 @@ public class OBDReadingService {
 	@Autowired
 	private OBDReadingsDAO obdreadingdao;
 	
+	
 	/*Get all readings*/
 	public List<OBDReading> getAllReadings(){
 		List<OBDReading> obdreadings = new ArrayList<>();
@@ -26,7 +27,9 @@ public class OBDReadingService {
 
 	/*Adicionar reading*/
 	public void createNewReading(OBDReading reading) {
+		/*reading.getPidset().setObdreading(reading);*/
 		this.obdreadingdao.save(reading);
+
 	}
 }
 

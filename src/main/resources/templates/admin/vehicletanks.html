@@ -16,15 +16,15 @@
           <h2 th:text="${vehicle.model}" class="h5"></h2><span th:text="${vehicle.vin}">VIN</span>
         </div>
         <!-- Small Brand information, appears on minimized sidebar-->
-        <div class="sidenav-header-logo"><a  class="brand-small text-center"> <strong>T</strong><strong class="text-primary">CC</strong></a></div>
+        <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>T</strong><strong class="text-primary">CC</strong></a></div>
       </div>
       <!-- Sidebar Navigation Menus-->
       <div class="main-menu">
         <ul id="side-main-menu" class="side-menu list-unstyled">
-          <li class="active"><a href="dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
+          <li><a href="dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
           <li><a href="drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
-          <li><a href="tanks"> <i class="fas fa-gas-pump"></i>ABASTECIMENTOS                             </a></li>
-          
+          <li class="active"><a href="drives"> <i class="fas fa-gas-pump"></i>ABASTECIMENTOS                             </a></li>
+
         </ul>
       </div>
     </div>
@@ -32,34 +32,41 @@
   <div class="page">
     <header th:replace="fragments/dashboardVehicles.html :: header">
     </header>
+    <div class="breadcrumb-holder">
+      <div class="container-fluid">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item "><a href="dashboard">Home</a></li>
+          <li class="breadcrumb-item active">Abastecimentos </li>
+        </ul>
+      </div>
+    </div>
     <section class="section-padding">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-12">
+
+          <div class="col-lg-8">
             <div class="card">
               <div class="card-header d-flex align-items-center">
-                <h4>DETALHES DO VEICULO</h4>
+                <h3></i>ABASTECIMENTOS</h3>
               </div>
               <div class="card-body">
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>Marca</th>
-                      <th>Modelo</th>
-                      <th>Ano</th>
-                      <th>Potencia</th>
-                      <th>Torque</th>
-                      <th>Cilindrada</th>
+                      <th style="display:none">Id</th>
+                      <th>Data</th>
+                      <th>Posto</th>
+                      <th>Combustivel</th>
+                      <th>Odometro (km)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td th:text="${vehicle.brand}">45</td>
-                      <td th:text="${vehicle.model}">45</td>
-                      <td th:text="${vehicle.year}">45</td>
-                      <td th:text="${vehicle.power}">45</td>
-                      <td th:text="${vehicle.torque}">45</td>
-                      <td th:text="${vehicle.eng_size}">45</td>
+                    <tr class="drive_row" th:each="tank: ${tanks}">
+                      <td style="display:none" id="drive_id" th:text="${tank.id}">vasile</td>
+                      <td th:text="${tank.date}">vasile</td>
+                      <td th:text="${tank.station}">45</td>
+                      <td th:text="${tank.fuel}">45</td>
+                      <td th:text="${tank.odometer}">45</td>
                     </tr>
                   </tbody>
                 </table>
@@ -67,49 +74,46 @@
               </div>
             </div>
           </div>
+          <div class="col-lg-4">
+
+            <div class="card">
+              <div class="card-header d-flex align-items-center">
+                <h3></i>NOVO ABASTECIMENTO</h3>
+              </div>
+              <div class="card-body">
+                <form action="#" th:action="@{tank}" th:object="${tank}" method="post">
+                  <div class="form-group">
+                    <label for="station">Posto</label>
+                    <input type="text" id="station" class="form-control" th:field="*{station}" />
+                  </div>
+                  <div class="form-group">
+                    <label for="fuel">Combustivel</label>
+                    <input type="text" id="fuel" class="form-control" th:field="*{fuel}" />
+                  </div>
+                  <div class="form-group">
+                    <label for="date">Data</label>
+                    <input type="date" id="fuel" class="form-control" th:field="*{date}" />
+                  </div>
+                  <div class="form-group">
+                    <label for="odometer">Odometro</label>
+                    <input type="number" id="fuel" class="form-control" th:field="*{odometer}" />
+                  </div>
+                  <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+            </div>
+            </form>
+
+          </div>
         </div>
       </div>
 
 
       <h1 style="display:none;" id="vin" th:text="${vehicle.vin}"></h1>
 
-
   </section>
-  <!-- Statistics Section
-  <section class="statistics" >
-    <div class="container-fluid">
-      <div class="row d-flex">
-        <div class="col-lg-4">
-          <div class="card income text-center">
-            <h2 class="display h4">Odometro</h2>
-            <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
-            <div class="number">---,---</div><strong class="text-primary">km</strong>
-            <p>Calculado ate a ultima rodagem cadastrada.</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card income text-center">
-            <h2 class="display h4">Consumo m�dio</h2>
-            <div class="icon"><i class="fas fa-gas-pump"></i></div>
-            <div class="number">--.--</div><strong class="text-primary">km/l</strong>
-            <p>Baseado no historico de consumos m�dios registrado</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-
-          <div class="card income text-center">
-            <h2 class="display h4">Rodagens realizadas</h2>
-            <div class="icon"><i class="fas fa-road"></i></div>
-            <div class="number">----</div><strong class="text-primary">Rodagens</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
--->
   <footer th:replace="fragments/dashboardVehicles.html :: footer">
   </footer>
-      </div>
+  </div>
   </div>
 
   <!-- Bootstrap core JavaScript
@@ -123,15 +127,7 @@
   <!-- Main File-->
   <script th:src="@{/js/vehicleDashboard.js}"></script>
   <!-- Script to open vehicle page -->
-  <script>
-    $(function() {
-      $('.drive_row').click(function() {
-        var vin = $(document).find("#vin").html();
-        var drive_id = $(this).find("#drive_id").html();
-        window.location.href = '/admin/vehicle' + '/' + vin + '/drive/' + drive_id;
-      });
-    });
-  </script>
+
 </body>
 
 </html>
