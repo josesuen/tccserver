@@ -28,6 +28,10 @@ public class Vehicle {
 	@JsonIgnore
 	private List<Drive> drives = new ArrayList<Drive>();
 	
+	@OneToMany(mappedBy = "vehicle")
+	@JsonIgnore
+	private List<Tank> tanks = new ArrayList<Tank>();
+	
 
 	/*Constructors */
 	
@@ -108,5 +112,15 @@ public class Vehicle {
 	public void setOdometer(double odometer) {
 		this.odometer = odometer;
 	}
+
+	public List<Tank> getTanks() {
+		return tanks;
+	}
+
+	public void setTanks(List<Tank> tanks) {
+		this.tanks = tanks;
+	}
+	
+	
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Drive;
-import com.example.demo.model.Driver;
 import com.example.demo.model.OBDReading;
+import com.example.demo.model.Tank;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.DriveService;
 import com.example.demo.service.DriverService;
 import com.example.demo.service.OBDReadingService;
+import com.example.demo.service.TankService;
 import com.example.demo.service.VehicleService;
 
 /**
@@ -43,6 +43,8 @@ public class RESTApiController {
 	
 	@Autowired
 	private DriverService driverservice;
+	@Autowired
+	private TankService tankservice;
 	
 	//VEHICLE OPERATIONS
 	@RequestMapping(value = "/api/vehicle", method = RequestMethod.GET)
@@ -57,6 +59,15 @@ public class RESTApiController {
 		drive.setVehicle(vehicleservice.findByVin(vin));
 		driveservice.createNewDrive(drive);
 		return drive;
+		
+	}
+	
+	//TANK OPERATIONS
+	@PostMapping("/api/vehicle/{vin}/tank")
+    public Tank createTank(@PathVariable (value = "vin") String vin, @Valid @RequestBody Tank tank) {
+		tank.setVehicle(vehicleservice.findByVin(vin));
+		tankservice.createNewTank(tank);
+		return tank;
 		
 	}
 	

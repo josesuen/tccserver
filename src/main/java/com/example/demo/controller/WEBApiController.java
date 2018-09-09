@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.authentication.User;
 import com.example.demo.authentication.UserService;
 import com.example.demo.model.Driver;
+import com.example.demo.model.Tank;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.DriveService;
 import com.example.demo.service.DriverService;
+import com.example.demo.service.TankService;
 import com.example.demo.service.VehicleService;
 /**
  * @author José Suen
@@ -36,6 +39,8 @@ public class WEBApiController {
 	@Autowired
 	private VehicleService vehicleService;
 	
+	@Autowired
+	private TankService tankService;
 	
 	@Autowired
 	private DriverService driverService;
@@ -93,6 +98,22 @@ public class WEBApiController {
 		model.addAttribute("vehicle", vehicleService.findByVin(vin));
 		model.addAttribute("drives", vehicleService.getAllDrives(vin));
         return "admin/vehicledrives";
+    }
+	
+	@RequestMapping(value = "/admin/vehicle/{vin}/tanks", method = RequestMethod.GET)
+    public String vehicleTanks(Model model, @PathVariable (value = "vin") String vin) {
+		var tank = new Tank();
+		model.addAttribute("vehicle", vehicleService.findByVin(vin));
+		model.addAttribute("tank", tank);
+	    model.addAttribute("tanks", vehicleService.getAllTanks(vin));
+        return "admin/vehicletanks";
+    }
+	
+	@RequestMapping(value = "/admin/vehicle/{vin}/tank", method = RequestMethod.POST)
+    public String vehicleNewTank(Model model, @ModelAttribute Tank tank, @PathVariable (value = "vin") String vin) {
+		tank.setVehicle(vehicleService.findByVin(vin));
+		tankService.createNewTank(tank);
+		return "redirect:tanks";
     }
 	
 	@RequestMapping(value = "/admin/vehicle/{vin}/drives/{driveid}", method = RequestMethod.GET)

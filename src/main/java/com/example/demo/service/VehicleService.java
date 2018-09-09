@@ -2,13 +2,13 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DAO.VehicleDAO;
 import com.example.demo.model.Drive;
+import com.example.demo.model.Tank;
 import com.example.demo.model.Vehicle;
 
 /*Serviço*/
@@ -34,6 +34,11 @@ public class VehicleService {
 	public List<Drive> getAllDrives(String vin){
 		List<Drive> drives = new ArrayList<>();
 		return vehicledao.findByVin(vin).getDrives();
+	}
+	
+	/*Get all tanks */
+	public List<Tank> getAllTanks(String vin){
+		return vehicledao.findByVin(vin).getTanks();
 	}
 	
 	public Vehicle findByVin (String vin) {

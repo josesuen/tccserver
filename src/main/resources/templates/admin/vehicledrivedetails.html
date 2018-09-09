@@ -23,6 +23,8 @@
         <ul id="side-main-menu" class="side-menu list-unstyled">
           <li><a href="../dashboard"> <i class="fas fa-home"></i>HOME                             </a></li>
           <li class="active"><a href="../drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
+          <li><a href="../tanks"> <i class="fas fa-gas-pump"></i>ABASTECIMENTOS                             </a></li>
+        
         </ul>
       </div>
     </div>
@@ -30,6 +32,15 @@
   <div class="page">
     <header th:replace="fragments/dashboardVehicles.html :: header">
     </header>
+            <div class="breadcrumb-holder">
+        <div class="container-fluid">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item "><a href="dashboard">Home</a></li>
+            <li class="breadcrumb-item "><a href="../drives">Rodagens      </a> </li>
+            <li class="breadcrumb-item  active" th:text="${drive.date}">       </li>
+          </ul>
+        </div>
+      </div>
     <section class="section-padding">
       <div class="container-fluid">
         <div class="card">
