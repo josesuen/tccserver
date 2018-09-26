@@ -1,9 +1,14 @@
 package com.example.demo.controller;
+import java.beans.PropertyEditorSupport;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +51,16 @@ public class RESTApiController {
 	@Autowired
 	private TankService tankservice;
 	
+	@InitBinder("obdreading")
+	protected void initBinder(WebDataBinder binder) {
+	    binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+	        public void setAsText(String value) {
+	             setValue(new Date(Long.valueOf(value)));
+	        }
+
+	    });
+	}
+	
 	//VEHICLE OPERATIONS
 	@RequestMapping(value = "/api/vehicle", method = RequestMethod.GET)
 	@ResponseBody
@@ -57,6 +72,9 @@ public class RESTApiController {
 	@PostMapping("/api/vehicle/{vin}/drive")
     public Drive createdrive(@PathVariable (value = "vin") String vin, @Valid @RequestBody Drive drive) {
 		drive.setVehicle(vehicleservice.findByVin(vin));
+		Calendar cal = Calendar.getInstance();
+	    Date date=cal.getTime();
+		drive.setDate(date);
 		driveservice.createNewDrive(drive);
 		return drive;
 		
@@ -66,6 +84,9 @@ public class RESTApiController {
 	@PostMapping("/api/vehicle/{vin}/tank")
     public Tank createTank(@PathVariable (value = "vin") String vin, @Valid @RequestBody Tank tank) {
 		tank.setVehicle(vehicleservice.findByVin(vin));
+		Calendar cal = Calendar.getInstance();
+	    Date date=cal.getTime();
+		tank.setDate(date);
 		tankservice.createNewTank(tank);
 		return tank;
 		
@@ -74,6 +95,9 @@ public class RESTApiController {
 	//OBDREADING OPERATIONS
 	@PostMapping("/api/drive/{driveid}/obdreading")
     public void createreading(@PathVariable (value = "driveid") int driveid, @Valid @RequestBody OBDReading reading) {
+		Calendar cal = Calendar.getInstance();
+	    Date date=cal.getTime();
+	    reading.setTimestamp(date);
 		reading.setDrive(driveservice.findById(driveid).get());
 		obdreadingservice.createNewReading(reading);
 	}

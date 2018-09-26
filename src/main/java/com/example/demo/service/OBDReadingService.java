@@ -35,14 +35,3 @@ public class OBDReadingService {
 
 
 
-/*Codiog velho antes de usar repositorio*/
-/*public Collection<OBDReading> getAllReadings(){
-return obdreadingdao.getAllReadings();
-}
-
-public OBDReading getReadingById(int id) {
-return this.obdreadingdao.getReadingById(id);
-}
-
-
-*/

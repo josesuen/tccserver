@@ -18,8 +18,9 @@ public class Tank {
 	
 	private String station;
 	private String fuel;
+	private int volume;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm")
 	private Date date;
 	
 	private int odometer;
