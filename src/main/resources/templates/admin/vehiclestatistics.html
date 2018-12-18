@@ -21,10 +21,10 @@
       <!-- Sidebar Navigation Menus-->
       <div class="main-menu">
         <ul id="side-main-menu" class="side-menu list-unstyled">
-         <li ><a href="dashboard"> <i class="fas fa-car"></i>PERFIL                             </a></li>
-          <li class="active"><a href="drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
+          <li ><a href="dashboard"> <i class="fas fa-car"></i>PERFIL                             </a></li>
+          <li><a href="drives"> <i class="fas fa-road"></i>RODAGENS                             </a></li>
           <li><a href="tanks"> <i class="fas fa-gas-pump"></i>ABASTECIMENTOS                             </a></li>
-          <li  ><a href="statistics"> <i class="fas fa-chart-bar"></i>ESTATISTICAS                             </a></li>               </a></li>
+          <li class="active" ><a href="tanks"> <i class="fas fa-chart-bar"></i>ESTATISTICAS                             </a></li>
 
         </ul>
       </div>
@@ -33,49 +33,35 @@
   <div class="page">
     <header th:replace="fragments/dashboardVehicles.html :: header">
     </header>
-        <div class="breadcrumb-holder">
-        <div class="container-fluid">
-          <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-            <li class="breadcrumb-item active">Rodagens       </li>
-          </ul>
-        </div>
+    <div class="breadcrumb-holder">
+      <div class="container-fluid">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item "><a href="dashboard">Home</a></li>
+          <li class="breadcrumb-item active">Estatisticas </li>
+        </ul>
       </div>
+    </div>
     <section class="section-padding">
       <div class="container-fluid">
-        <div class="card">
-          <div class="card-header d-flex align-items-center">
-            <h3></i>RODAGENS</h3>
-          </div>
-          <div class="card-body">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th style="display:none">Id</th>
-                  <th>Data</th>
-                  <th>Descricao</th>
-                  <th>Odometro ao inicio da viagem</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="drive_row" th:each="drive: ${drives}">
-                  <td style="display:none" id="drive_id" th:text="${drive.id}">vasile</td>
-                  <td th:text="${drive.date}">vasile</td>
-                  <td th:text="${drive.description}">45</td>
-                  <td th:text="${drive.mileage_start}">45</td>
-                </tr>
-              </tbody>
-            </table>
-
-          </div>
+        <div class="row">
+          <div th:switch="${vehicle.vin}">
+              <div th:case="FOJ5082"><iframe src="http://residencia-rs-kibana-lb-1929209291.us-east-2.elb.amazonaws.com/app/kibana#/dashboard/c3eee190-025c-11e9-b87b-a787db15b02d?embed=true&_g=(refreshInterval%3A(display%3AOff%2Cpause%3A!f%2Cvalue%3A0)%2Ctime%3A(from%3Anow%2Fy%2Cmode%3Aquick%2Cto%3Anow))" height="900" width="1440"></iframe></div>
+              <div th:case="PYW2126"><iframe src="http://residencia-rs-kibana-lb-1929209291.us-east-2.elb.amazonaws.com/app/kibana#/dashboard/187695b0-f28f-11e8-b87b-a787db15b02d?embed=true&_g=(refreshInterval%3A(display%3AOff%2Cpause%3A!f%2Cvalue%3A0)%2Ctime%3A(from%3Anow%2Fy%2Cmode%3Aquick%2Cto%3Anow))" height="900" width="1440"></iframe></div>
+              <div th:case="NVT-6106"><iframe src="http://residencia-rs-kibana-lb-1929209291.us-east-2.elb.amazonaws.com/app/kibana#/dashboard/f0f36300-025c-11e9-b87b-a787db15b02d?embed=true&_g=(refreshInterval%3A(display%3AOff%2Cpause%3A!f%2Cvalue%3A0)%2Ctime%3A(from%3Anow%2Fy%2Cmode%3Aquick%2Cto%3Anow))" height="900" width="1440"></iframe></div>
+              <div th:case="FHO7880"><iframe src="http://residencia-rs-kibana-lb-1929209291.us-east-2.elb.amazonaws.com/app/kibana#/dashboard/a68fa7b0-025c-11e9-b87b-a787db15b02d?embed=true&_g=(refreshInterval%3A(display%3AOff%2Cpause%3A!f%2Cvalue%3A0)%2Ctime%3A(from%3Anow%2Fy%2Cmode%3Aquick%2Cto%3Anow))" height="900" width="1440"></iframe></div>
+              <div th:case="ATX3526"><iframe src="http://residencia-rs-kibana-lb-1929209291.us-east-2.elb.amazonaws.com/app/kibana#/dashboard/0a033ff0-025d-11e9-b87b-a787db15b02d?embed=true&_g=(refreshInterval%3A(display%3AOff%2Cpause%3A!f%2Cvalue%3A0)%2Ctime%3A(from%3Anow%2Fy%2Cmode%3Aquick%2Cto%3Anow))" height="900" width="1440"></iframe></div>
+            </div>
         </div>
-        <h1 style="display:none;" id="vin" th:text="${vehicle.vin}"></h1>
       </div>
+
+
+      <h1 style="display:none;" id="vin" th:text="${vehicle.vin}"></h1>
+
   </section>
   <footer th:replace="fragments/dashboardVehicles.html :: footer">
   </footer>
   </div>
-
+  </div>
 
   <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -88,15 +74,7 @@
   <!-- Main File-->
   <script th:src="@{/js/vehicleDashboard.js}"></script>
   <!-- Script to open vehicle page -->
-  <script>
-    $(function() {
-      $('.drive_row').click(function() {
-        var vin = $(document).find("#vin").html();
-        var drive_id = $(this).find("#drive_id").html();
-        window.location.href = '/admin/vehicle' + '/' + vin + '/drives/' + drive_id;
-      });
-    });
-  </script>
+
 </body>
 
 </html>

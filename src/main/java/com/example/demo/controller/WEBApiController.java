@@ -86,6 +86,13 @@ public class WEBApiController {
 	        return "redirect:/admin/vehicle";
 	  } 
 	
+	@RequestMapping(value = "/admin/vehicle/{vin}/statistics", method = RequestMethod.GET)
+	    public String vehicleStatistics(Model model, @PathVariable (value = "vin") String vin) {
+			model.addAttribute("vehicle", vehicleService.findByVin(vin));
+			model.addAttribute("drives", vehicleService.getAllDrives(vin));
+	        return "admin/vehiclestatistics";
+	    }
+	 
 	@RequestMapping(value = "/admin/vehicle/{vin}/dashboard", method = RequestMethod.GET)
     public String vehicleDetails(Model model, @PathVariable (value = "vin") String vin) {
 		model.addAttribute("vehicle", vehicleService.findByVin(vin));
